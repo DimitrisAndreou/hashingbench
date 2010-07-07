@@ -20,7 +20,7 @@ public class ChainHashAnalysis {
                 averageOf(Vars.AVG_CHAIN).
                 per(Vars.SCRAMBLER, Vars.DATASET, Vars.N);
         for (Record record : records) {
-            System.out.printf("%20s %10s N=%s avgChain=%1.3f%n",
+            System.out.printf("%20s %15s N=%s avgChain=%1.3f%n",
                     record.get(Vars.SCRAMBLER), record.get(Vars.DATASET), record.get(Vars.N), record.getValue());
         }
         db.shutDown();
