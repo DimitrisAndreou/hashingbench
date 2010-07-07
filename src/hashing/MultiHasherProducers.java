@@ -33,6 +33,22 @@ public enum MultiHasherProducers implements MultiHasherProducer {
         public MultiHasher produce(int k) {
             return UniversalHashing.create(Arrays.copyOf(a, k), Arrays.copyOf(b, k));
         }
+    },
+
+    RANDOM_JENKINS() {
+        public MultiHasher produce(int k) {
+            return new MultiHasher() {
+                private final Random random = new Random(0);
+
+                public void multihash(Object o, int[] output, int tableSize) {
+                    random.setSeed(o.hashCode());
+                    for (int i = 0; i < output.length; i++) {
+                        output[i] = Modulo.mod(Scramblers.JENKINS.scramble(random.nextInt()), tableSize);
+                    }
+                }
+            };
+        }
     }
+
     ;
 }
