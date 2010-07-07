@@ -13,7 +13,7 @@ public enum MultiHasherProducers implements MultiHasherProducer {
             return new MultiHasher() {
                 private final Random random = new Random(0);
 
-                public void multihash(Object o, int[] output, int tableSize) { //not thread safe
+                public void multihash(Object o, int[] output, int tableSize) {
                     random.setSeed(o.hashCode());
                     for (int i = 0; i < output.length; i++) {
                         output[i] = Modulo.mod(random.nextInt(), tableSize);
