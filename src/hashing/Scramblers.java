@@ -102,4 +102,6 @@ public enum Scramblers implements Scrambler {
         }
     }
     ;
+
+    public abstract int scramble(int h); //compiler bug workaround
 }

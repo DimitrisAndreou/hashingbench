@@ -48,6 +48,23 @@ public enum MultiHasherProducers implements MultiHasherProducer {
                 }
             };
         }
+    },
+
+    RANDOM_MANES() {
+        private final MultiHasher instance = new MultiHasher() {
+            public void multihash(Object o, int[] output, int tableSize) {
+                int hashCode = o.hashCode();
+                int probe = 1 + Math.abs(hashCode % tableSize);
+
+                int h = Scramblers.CONCURRENTHASHMAP.scramble(hashCode);
+                for (int i=0; i < output.length; i++) {
+                    output[i] = Math.abs(h ^ i*probe) % tableSize;
+                }
+            }
+        };
+        public MultiHasher produce(int k) {
+            return instance;
+        }
     }
 
     ;
