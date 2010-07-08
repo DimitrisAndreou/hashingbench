@@ -28,7 +28,7 @@ public class BloomBench {
         DATASET,
         /** False positive ratio derived experimentally */
         FALSE_POSITIVES,
-        /** False positive ratio derived experimentally */
+        /** False positive ratio derived theoretically */
         EXPECTED_FALSE_POSITIVES,
     }
 
