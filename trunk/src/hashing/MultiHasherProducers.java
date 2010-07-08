@@ -1,12 +1,16 @@
 package hashing;
 
-import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Various {@link MultiHasherProducer} implementations.
+ */
 public enum MultiHasherProducers implements MultiHasherProducer {
     /**
-     * Taken from {@code java.util.Random}.
+     * A {@code MultiHasherProducer} that creates {@code MultiHasher}s that
+     * seeds a {@link Random} object with the {@code hashCode()} of an object, 
+     * and then generates as many random integers as required.
      */
     RANDOM() {
         public MultiHasher produce(int k) {
@@ -24,7 +28,8 @@ public enum MultiHasherProducers implements MultiHasherProducer {
     },
 
     /**
-     * Universal hashing.
+     * A {@code MultiHasherProducer} that creates {@code MultiHasher}s based on
+     * universal hashing. This implementation can only serve up to 6 hashes per object.
      */
     UNIVERSAL() {
         private final int a[] = { -334383531, -1748844831, -2116204994, -568712013, 523495494, -264127263 };
@@ -35,6 +40,10 @@ public enum MultiHasherProducers implements MultiHasherProducer {
         }
     },
 
+    /**
+     * A {@code MultiHasherProducer} similar to {@link #RANDOM}, with the difference
+     * that the random numbers generated are also scrambled by {@link Scramblers#JENKINS}.
+     */
     RANDOM_JENKINS() {
         public MultiHasher produce(int k) {
             return new MultiHasher() {
@@ -50,6 +59,12 @@ public enum MultiHasherProducers implements MultiHasherProducer {
         }
     },
 
+    /**
+     * A {@code MultiHasherProducer} suggested by Ben Manes. It uses
+     * the scrambled (via {@link Scramblers#CONCURRENTHASHMAP}) hashCode()
+     * as the start position, then adds the hashCode() (modulo table size) to the last
+     * position to yield as many hashes as required.
+     */
     RANDOM_MANES() {
         private final MultiHasher instance = new MultiHasher() {
             public void multihash(Object o, int[] output, int tableSize) {

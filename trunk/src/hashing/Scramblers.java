@@ -1,5 +1,8 @@
 package hashing;
 
+/**
+ * Various {@link Scrambler} implementations.
+ */
 public enum Scramblers implements Scrambler {
     /**
      * Simply returns the argument's hashCode.
@@ -20,6 +23,9 @@ public enum Scramblers implements Scrambler {
         }
     },
 
+    /**
+     * Taken from an old version of {@code java.util.HashMap}.
+     */
     HASHMAP_OLD() {
         public int scramble(int h) {
 		    h += ~(h << 9);

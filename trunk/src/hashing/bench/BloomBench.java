@@ -74,7 +74,7 @@ public class BloomBench {
                                 add(Vars.b, bitsPerElement).
                                 add(Vars.DATASET, dataset).
                                 add(Vars.FALSE_POSITIVES, falsePositiveRate).
-                                add(Vars.EXPECTED_FALSE_POSITIVES, bloomFilter.computeActualFalsePositiveRate());
+                                add(Vars.EXPECTED_FALSE_POSITIVES, bloomFilter.computeFalsePositiveRate());
                         System.out.println(record);
                         aggr.record(record);
                     }
