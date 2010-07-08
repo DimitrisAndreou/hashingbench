@@ -49,7 +49,7 @@ public class ChainHashBench {
                 int tableSize = 1 << bits;
                 for (Dataset dataset : datasets) {
                     int threshold = (int)(0.75 * tableSize) - 1;
-                    FakeChainHashtable hashtable = new FakeChainHashtable(tableSize, threshold, scrambler);
+                    FakeChainHashtable hashtable = new FakeChainHashtable(tableSize, scrambler);
                     for (int i = 0; i < threshold; i++) {
                         Object o = dataset.create(i);
                         hashtable.put(o);

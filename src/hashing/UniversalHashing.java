@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * A universal hash function family.
+ */
 public class UniversalHashing implements MultiHasher {
     /**
      * Prime smaller than Integer.MAX_VALUE. (Normally must be chosen so that is greater than largest table size.)
@@ -30,6 +33,12 @@ public class UniversalHashing implements MultiHasher {
         return "UniversalHashing[a=" + Arrays.toString(a) + ", b=" + Arrays.toString(b) + "]";
     }
 
+    /**
+     * Creates a UniversalHashing with the specified components. Integers in array {@code a}
+     * cannot be zero, while numbers in {@code b} can be arbitrary (both are be chosen randomly).
+     * The length of the two arrays must be equal, and it defines the maximum hashes that the resulting
+     * UniversalHashing instance can generate per object.
+     */
     public static UniversalHashing create(int[] a, int[] b) {
         Preconditions.checkArgument(a.length == b.length);
         for (int x : a) {
@@ -38,6 +47,13 @@ public class UniversalHashing implements MultiHasher {
         return new UniversalHashing(a, b);
     }
 
+    /**
+     * Creates a UniversalHashing that can serve up to {@code k} hashes per object, using the
+     * specified {@code Random} instance to randomly select internal components.
+     * @param k the maximum number of hashes that the returned UniversalHashing must be able to serve
+     * @param random the random number generator to use for the creation of the UniversalHashing object
+     * @return a UniversalHashing object
+     */
     public static UniversalHashing create(int k, Random random) {
         int[] a = new int[k];
         int[] b = new int[k];
