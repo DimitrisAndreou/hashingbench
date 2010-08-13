@@ -5,6 +5,7 @@ import gr.forth.ics.jbenchy.Database;
 import gr.forth.ics.jbenchy.DbFactories;
 import gr.forth.ics.jbenchy.Filters;
 import gr.forth.ics.jbenchy.Orders;
+import gr.forth.ics.jbenchy.Record;
 import gr.forth.ics.jbenchy.Records;
 import gr.forth.ics.jbenchy.diagram.Diagram;
 import gr.forth.ics.jbenchy.diagram.DiagramFactory;
@@ -24,11 +25,20 @@ public class BloomAnalysis {
                     ordered(Orders.asc(Vars.FALSE_POSITIVES)).
                     filtered(Filters.eq(Vars.b, 8)).
                     filtered(Filters.eq(Vars.N, N)).
-                    filtered(Filters.eq(Vars.DATASET, Datasets.OBJECTS)).
+                    filtered(Filters.eq(Vars.DATASET, Datasets.STRINGS)).
                     averageOf(Vars.FALSE_POSITIVES).
                     per(Vars.MULTIHASHER);
             Diagram diagram = DiagramFactory.newDiagram(records);
             new ChartFactory(diagram).newBarChart().write(800, 800, "png", new File("bloom_" + N + ".png"));
+        }
+
+        Records records = aggr.
+                ordered(Orders.asc(Vars.DATASET), Orders.asc(Vars.N), Orders.asc(Vars.b)).
+                averageOf(Vars.FALSE_POSITIVES).
+                per(Vars.MULTIHASHER, Vars.b, Vars.N, Vars.DATASET);
+        for (Record record : records) {
+            System.out.printf("%15s bitsPerElement =%2s N = %5s %22s falsePositives = %s%n",
+                    record.get(Vars.DATASET), record.get(Vars.b), record.get(Vars.N), record.get(Vars.MULTIHASHER), record.getValue());
         }
 
         db.shutDown();

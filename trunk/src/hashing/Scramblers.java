@@ -28,10 +28,10 @@ public enum Scramblers implements Scrambler {
      */
     HASHMAP_OLD() {
         public int scramble(int h) {
-		    h += ~(h << 9);
-		    h ^= (h >>> 14);
-		    h += (h << 4);
-		    h ^= (h >>> 10);
+            h += ~(h << 9);
+            h ^= (h >>> 14);
+            h += (h << 4);
+            h ^= (h >>> 10);
             return h;
 		}
 	},
